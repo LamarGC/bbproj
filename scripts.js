@@ -16,7 +16,7 @@ var user = Backbone.Model.extend({
 
 var VehicleData = Backbone.Model.extend({
 	dafaults:{
-		vehicleName: '',
+		name: '',
 		category: '',
 		cost: '',
 		date: '',
@@ -64,24 +64,36 @@ var VehicleDataView = Backbone.View.extend({
 		var date = this.$('.date').html();
 		var description = this.$('.description').html();
 
-		this.$('.name').html('<input type="text" class="form-control name-update" value=' + name + '>');
-		this.$('.category').html('<input type="text" class="form-control category-update" value=' + category + '>');
-		this.$('.cost').html('<input type="text" class="form-control cost-update" value=' + cost + '>');
-		this.$('.date').html('<input type="text" class="form-control date-update" value=' + date + '>');
-		this.$('.description').html('<input type="text" class="form-control description-update" value=' + description + '>');
+		this.$('.name').html('<input type="text" class="form-control name-update" value="' + name + '">');
+		this.$('.category').html('<input type="text" class="form-control category-update" value="' + category + '">');
+		this.$('.cost').html('<input type="text" class="form-control cost-update" value="' + cost + '">');
+		this.$('.date').html('<input type="text" class="form-control date-update" value="' + date + '">');
+		this.$('.description').html('<input type="text" class="form-control description-update" value="' + description + '">');
 
 	},
 	delete: function(){
+		this.model.destroy({
 
+		});
 	},
 	update: function(){
+		var name = this.$('.name-update').val();
+		var category = this.$('.category-update').val();
+		var cost = this.$('.cost-update').val();
+		var date = this.$('.date-update').val();
+		var description = this.$('.description-update').val();
 
+		this.model.set({name: name,
+						category: category,
+						cost: cost,
+						date: date,
+						description, description});
 	},
 	cancel: function(){
-
+		vehicleDatasView.render();
 	},
 	initialize: function(){
-		console.log('a new VehicleView has been created');
+		console.log('a new VehicleDataView has been created');
 		this.template = _.template($('.vehicledata-list-template').html());
 	},
 	render: function(){
@@ -95,7 +107,7 @@ var VehicleDatasView = Backbone.View.extend({
 	model: vehicleDatas,
 	el: $('.vehicles-list'),
 	initialize: function(){
-		console.log('a new VehiclesView has been created');
+		console.log('a new VehicleDatasView has been created');
 		this.model.on('add', this.render, this);
 		this.model.on('change', this.render, this);
 		this.model.on('remove', this.render, this);
