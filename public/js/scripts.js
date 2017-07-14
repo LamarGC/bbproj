@@ -94,6 +94,11 @@ var VehicleDataView = Backbone.View.extend({
 		var date = this.$('.date-update').val();
 		var description = this.$('.description-update').val();
 
+		if(!$('.cost-update').val() || isNaN($('.cost-update').val())){
+			$('.alert.alert-danger').show();
+			return;
+		}
+
 		this.model.set({name: name,
 						category: category,
 						cost: cost,
@@ -102,9 +107,11 @@ var VehicleDataView = Backbone.View.extend({
 
 		this.model.save(null, {
 			success: function(response){
+				$('.alert.alert-danger').hide();
 				console.log('successfully UPDATED vehicledata with _id: ' + response.toJSON()._id);
 			},
 			error: function(response){
+				$('.alert.alert-danger').show();
 				console.log('failed to update vehicledata');
 			}
 		});
