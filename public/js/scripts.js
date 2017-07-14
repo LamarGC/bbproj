@@ -25,6 +25,10 @@ var VehicleData = Backbone.Model.extend({
 		description: '',
 		action: ''
 	},
+	validate: function(attrs){
+		if(!attrs.cost)
+			return 'please input cost';
+	},
 	initialize: function(){
 		console.log('A new vehicle data model was initialized');
 	}
@@ -156,6 +160,10 @@ var vehicleDatasView = new VehicleDatasView();
 $(document).ready(function(){
 	$('.add-vehicledata').on('click', function(){
 		console.log('clicked to add vehicledata');
+		if(!$('.cost-input').val() || isNaN($('.cost-input').val())){
+			$('.alert.alert-danger').show();
+			return;
+		}
 		var vehicleData = new VehicleData({
 			name: $('.name-input').val(),
 			category: $('.category-input').val(),
@@ -172,9 +180,11 @@ $(document).ready(function(){
 
 		vehicleData.save(null, {
 			success: function(response){
+				$('.alert.alert-danger').hide();
 				console.log('Successfully saved vehicledata with _id ' + response.toJSON()._id);
 			},
 			error: function(){
+				$('.alert.alert-danger').show();
 				console.log('failed to save vehicledata');
 			}
 		});
