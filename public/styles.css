@@ -5,3 +5,9 @@ body {
 .alert.alert-danger {
 	display: none;
 }
+
+/*.description {
+	max-width: auto;
+	overflow-x: scroll;
+	white-space: nowrap;
+}*/

@@ -25,10 +25,6 @@ var VehicleData = Backbone.Model.extend({
 		description: '',
 		action: ''
 	},
-	validate: function(attrs){
-		if(!attrs.cost)
-			return 'please input cost';
-	},
 	initialize: function(){
 		console.log('A new vehicle data model was initialized');
 	}
@@ -135,7 +131,7 @@ var VehicleDatasView = Backbone.View.extend({
 	el: $('.vehicles-list'),
 	initialize: function(){
 		console.log('a new VehicleDatasView has been created');
-		//this.model.on('add', this.render, this);
+		this.model.on('add', this.render, this);
 		this.model.on('change', this.render, this);
 		this.model.on('remove', this.render, this);
 
