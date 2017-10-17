@@ -158,6 +158,7 @@ var VehicleDatasView = Backbone.View.extend({
 var vehicleDatasView = new VehicleDatasView();
 
 //JQUERY
+$('#datepicker').datepicker();
 $(document).ready(function(){
 	$('.add-vehicledata').on('click', function(){
 		console.log('clicked to add vehicledata');
