@@ -4,12 +4,10 @@ Backbone.Model.prototype.idAttribute = '_id';
 var user = Backbone.Model.extend({
 	url: '/user',
 	defaults: {
-		first_name: '',
-		last_name: '',
-		email: '',
 		username: '',
+		email: '',
 		password: '',
-		vehicles: []
+		passwordConf: ''
 	},
 	initialize: function(){
 		console.log('A new user model was created');

@@ -1,9 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+//var router = express.Router();
+var User = require('./public/models/user');
 
 mongoose.connect('mongodb://localhost/vehicleapp');
-
 var Schema = mongoose.Schema;
 
 var VehicleDataSchema = new Schema({
@@ -13,27 +14,52 @@ var VehicleDataSchema = new Schema({
 	date: String,
 	description: String
 });
-
 mongoose.model('VehicleData', VehicleDataSchema);
-
 var VehicleData = mongoose.model('VehicleData');
 
-/*var vehicleData = new VehicleData({
-	name: 'dummyName',
-	category: 'dummyCategory',
-	cost: 1,
-	date: '1/1/1',
-	description: 'dummyDescription'
-});
-
-vehicleData.save();*/
-
 var app = express();
-
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //ROUTES
+app.get('/', function(req, res){
+	return res.sendFile(path.join(__dirname + '/public/home.html'));
+});
+
+app.post('/', function(req, res, next){
+	if(req.body.email &&
+		req.body.username &&
+		req.body.password &&
+		req.body.passwordConf){
+			
+			var userData = {
+				email: req.body.email,
+				username: req.body.username,
+				password: req.body.password,
+				passwordConf: req.body.passwordConf
+			}
+			
+			User.create(userData, function(err, user){
+				if(err){
+					return next(err);
+				}
+				else{
+					return res.redirect('home.html');
+				}
+			});
+			console.log('hi');
+		}
+		console.log(req.body.email);
+		console.log(req.body.username);
+		console.log(req.body.password);
+		console.log(req.body.passwordConf);
+		console.log("hi");
+});
+
+app.get('/data', function(req, res){
+	res.sendFile(__dirname + '/public/data.html');
+});
 
 app.get('/api/vehicledatas', function(req,res){
 	VehicleData.find(function(err, docs){
